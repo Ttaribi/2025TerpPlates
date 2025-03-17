@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+Create a Comment
+</title>
+
+<link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/header-251cmnts.css">
+<link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/body-251cmnts.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <div class="header">
+
+        <div class="left-header">
+          <a href="/official-website/main-page/index.html">
+          <button class="header-buttons"> Home </button>
+        </a>
+        </div>
+        <div class="middle-header-text">
+          TerpPlates  
+          <img class="logo-pic" src="/official-website/icons/tp-logo.png">
+        </div>
+        <div class="right-header">
+          <button class="header-buttons"> About
+          </button>
+        </div>
+      </div>
+
+
+      <div class = "container">
+        <form class="wholeform">
+            <h3>Create comments</h3>
+            <input type="text" id="name" placeholder="Your name" >
+            <input type="email" id="email" placeholder="Email id" >
+            <input type="text" id="phone" placeholder="Phone no." >
+            <textarea class="review-comment" rows="4" placeholder="Type in a review."></textarea>
+            <button type="submit">Send</button>
+
+        </form>
+    
+    </div>
+    
+
+    <script>
+
+document.querySelector('.wholeform').addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+  const comment = document.querySelector('.review-comment').value;
+
+  fetch('http://localhost:3000/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, email, phone, comment }),
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+});
+    </script>
+
+
+</body>
+
+
+
+</html>

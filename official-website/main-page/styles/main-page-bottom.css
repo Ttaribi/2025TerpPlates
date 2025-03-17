@@ -1,0 +1,75 @@
+.bottom-area {
+    display: flex;
+    flex:1;
+    justify-content: center;
+    
+    
+    
+
+
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 80px;
+    background-color: rgb(42, 41, 41);
+    height: 500px;
+    width: 400px;
+    border-radius: 30px;
+    margin-left:30px;
+    margin-right:30px;
+    
+}
+
+.card-image {
+    margin-top:40px;
+    margin-bottom: 20px;
+    
+    height: 171.89px;
+    width: 249.8px;
+    border-radius: 30px;
+}
+
+.middle{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+}
+
+.todays-rating{
+    font-size:40px;
+    color:white
+}
+
+.stars{
+    color:white;
+font-size: 30px;
+top:80px;
+
+}
+
+.e-star{
+    margin-bottom: 30px;
+    font-size: 30px;
+
+}
+
+.teleport-to{
+    font-family: arial;
+    font-size: 30px;
+    height:100px;
+    width: 300px;
+    border-radius:15px;
+    border:none;
+
+    cursor:pointer;
+
+    transition: transform 0.3s;
+}
+
+.teleport-to:hover {
+    transform: translateY(-10px);
+}
