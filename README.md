@@ -7,7 +7,7 @@ This project is built using:
 JavaScript, HTML, and CSS for the frontend
 Node.js and Express for the backend
 MongoDB for storing and retrieving reviews dynamically
-Each dining hall has its own dedicated review section, ensuring that 251 North, South Diner, and Yahentamitsi each have separate comments.
+Each dining hall has its own dedicated review section, ensuring that 251 North, South Diner, and Yahentamitsi each have separate comments. (Homepage stars are not accurate)
 
 📹 Video Walkthrough
 
