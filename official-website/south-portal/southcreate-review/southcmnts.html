@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Comment</title>
+    <link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/header-251cmnts.css">
+    <link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/body-251cmnts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <div class="header">
+        <div class="left-header">
+            <a href="/official-website/main-page/index.html">
+                <button class="header-buttons"> Home </button>
+            </a>
+        </div>
+        <div class="middle-header-text">
+            TerpPlates  
+            <img class="logo-pic" src="/official-website/icons/tp-logo.png">
+        </div>
+        <div class="right-header">
+            <button class="header-buttons"> About </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <form id="reviewForm">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <textarea id="comment" placeholder="Type your review..." rows="4" required></textarea>
+
+    <div class="star-rating">
+        <span class="star" data-value="1">&#9733;</span>
+        <span class="star" data-value="2">&#9733;</span>
+        <span class="star" data-value="3">&#9733;</span>
+        <span class="star" data-value="4">&#9733;</span>
+        <span class="star" data-value="5">&#9733;</span>
+    </div>
+
+    <input type="hidden" id="rating" value="0">
+    <button type="submit">Submit</button>
+</form>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const stars = document.querySelectorAll(".star");
+            const ratingInput = document.getElementById("rating");
+            const form = document.getElementById("reviewForm");
+        
+            stars.forEach(star => {
+                star.addEventListener("click", function () {
+                    let rating = this.getAttribute("data-value");
+                    ratingInput.value = rating;
+        
+                    // Reset and highlight stars correctly
+                    stars.forEach(s => s.classList.remove("active"));
+                    for (let i = 0; i < rating; i++) {
+                        stars[i].classList.add("active");
+                    }
+                });
+            });
+        
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault(); // Ensure form does not reload the page
+        
+                const name = document.getElementById("name").value;
+                const comment = document.getElementById("comment").value;
+                const rating = document.getElementById("rating").value;
+                const diningHall = "south"; // Targeting South Dining Hall
+        
+                if (rating == 0) {
+                    alert("Please select a star rating.");
+                    return;
+                }
+        
+                if (name.trim() === "" || comment.trim() === "") {
+                    alert("Please fill out all fields.");
+                    return;
+                }
+        
+                try {
+                    const response = await fetch(`http://localhost:3001/south/submit`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, comment, rating }),
+                });
+
+        
+                    if (response.ok) {
+                        alert("Comment submitted successfully!");
+                        form.reset();
+                        stars.forEach(s => s.classList.remove("active")); // Reset stars after submission
+                        ratingInput.value = 0;
+                    } else {
+                        alert("Error submitting comment.");
+                    }
+                } catch (error) {
+                    console.error("Fetch error:", error);
+                    alert("Failed to connect to the server.");
+                }
+            });
+        });
+        </script>
+        
+        
+        
+      
+      
+
+</body>
+</html>

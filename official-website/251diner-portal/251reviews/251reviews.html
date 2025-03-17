@@ -43,7 +43,7 @@
 <div class="top-page">
     <div class="intro">Today's 251 North Reviews</div>
 
-   <a href="https://nutrition.umd.edu/?locationNum=51&dtdate" target="_blank">
+    <a id="menu-link" href="#" target="_blank">
     <button class="menu">Menu</button>
 </a>
 </div>
@@ -141,7 +141,53 @@
     </div>
 
 
-    <script ></script>
+    <script>
+         document.addEventListener("DOMContentLoaded", function () {
+    // Gets us todays date
+    const today = new Date();
+    const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+
+    // \will set link dynamically
+    const menuLink = document.getElementById("menu-link");
+    menuLink.href = `https://nutrition.umd.edu/?locationNum=51&dtdate=${formattedDate}`;
+});
+
+        async function loadComments() {
+            try {
+                const diningHall = "251"; // Change this dynamically for other halls
+                const response = await fetch(`http://localhost:3000/${diningHall}/comments`);
+                const comments = await response.json();
+        
+                const reviewsContainer = document.querySelector('.reviews');
+                reviewsContainer.innerHTML = "";
+        
+                comments.forEach(comment => {
+                    let stars = "⭐".repeat(comment.rating) + "☆".repeat(5 - comment.rating);
+        
+                    const commentElement = document.createElement('form');
+                    commentElement.className = "comments-form";
+                    commentElement.innerHTML = `
+                        <div class="content">
+                            <strong style="color: white; font-size: 18px;">${comment.name}</strong>
+                            <div class="star-rating-display">${stars}</div>
+                            <div class="rest-comment">${comment.comment}</div>
+                            <div class="comment-meta">${new Date(comment.timestamp).toLocaleString()}</div>
+                        </div>
+                    `;
+                    reviewsContainer.appendChild(commentElement);
+                });
+            } catch (error) {
+                console.error("Error loading comments:", error);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadComments);
+        </script>
+        
+        
+        
+        
+        
 
 
 </body>

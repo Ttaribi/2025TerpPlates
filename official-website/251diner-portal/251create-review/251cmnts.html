@@ -1,82 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>
-Create a Comment
-</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Comment</title>
+    <link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/header-251cmnts.css">
+    <link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/body-251cmnts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-<link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/header-251cmnts.css">
-<link rel="stylesheet" href="/official-website/251diner-portal/251create-review/styles/body-251cmnts.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
-
-
 </head>
-
 <body>
 
     <div class="header">
-
         <div class="left-header">
-          <a href="/official-website/main-page/index.html">
-          <button class="header-buttons"> Home </button>
-        </a>
+            <a href="/official-website/main-page/index.html">
+                <button class="header-buttons"> Home </button>
+            </a>
         </div>
         <div class="middle-header-text">
-          TerpPlates  
-          <img class="logo-pic" src="/official-website/icons/tp-logo.png">
+            TerpPlates  
+            
         </div>
         <div class="right-header">
-          <button class="header-buttons"> About
-          </button>
+            <button class="header-buttons"> About </button>
         </div>
-      </div>
-
-
-      <div class = "container">
-        <form class="wholeform">
-            <h3>Create comments</h3>
-            <input type="text" id="name" placeholder="Your name" >
-            <input type="email" id="email" placeholder="Email id" >
-            <input type="text" id="phone" placeholder="Phone no." >
-            <textarea class="review-comment" rows="4" placeholder="Type in a review."></textarea>
-            <button type="submit">Send</button>
-
-        </form>
-    
     </div>
-    
+
+    <div class="container">
+        <form id="reviewForm">
+            <h3>Create a Review</h3>
+            <input type="text" id="name" placeholder="Your Name" required>
+            <textarea id="comment" placeholder="Type your review..." rows="4" required></textarea>
+
+            <!-- Star Rating -->
+            <div class="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+
+            <input type="hidden" id="rating" value="0">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 
     <script>
-
-document.querySelector('.wholeform').addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
-  const comment = document.querySelector('.review-comment').value;
-
-  fetch('http://localhost:3000/submit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name, email, phone, comment }),
-  })
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-});
-    </script>
-
+      document.addEventListener("DOMContentLoaded", function () {
+          const stars = document.querySelectorAll(".star");
+          const ratingInput = document.getElementById("rating");
+      
+          stars.forEach(star => {
+              star.addEventListener("click", function () {
+                  let rating = this.getAttribute("data-value");
+                  ratingInput.value = rating;
+      
+                  // Reset and highlight stars correctly
+                  stars.forEach(s => s.classList.remove("active"));
+                  for (let i = 0; i < rating; i++) {
+                      stars[i].classList.add("active");
+                  }
+              });
+          });
+      
+          document.getElementById("reviewForm").addEventListener("submit", async function (event) {
+              event.preventDefault();
+      
+              const name = document.getElementById("name").value;
+              const comment = document.getElementById("comment").value;
+              const rating = document.getElementById("rating").value;
+              const diningHall = "251"; // Change dynamically for other halls
+      
+              if (rating == 0) {
+                  alert("Please select a star rating.");
+                  return;
+              }
+      
+              const response = await fetch(`http://localhost:3000/${diningHall}/submit`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ name, comment, rating }),
+              });
+      
+              if (response.ok) {
+                  alert("Comment submitted!");
+                  document.getElementById("reviewForm").reset();
+                  stars.forEach(s => s.classList.remove("active")); // This will reset the stars
+              } else {
+                  alert("Error submitting comment.");
+              }
+          });
+      });
+      </script>
+      
+      
 
 </body>
-
-
-
 </html>

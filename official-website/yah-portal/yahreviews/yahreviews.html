@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        251 Reviews
+    </title>
+
+    <link rel="stylesheet" href="styles/review-page-header.css">
+    <link rel="stylesheet" href="styles/review-page-top.css">
+    <link rel="stylesheet" href="styles/review-page-bottom.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="header">
+
+        <div class="left-header">
+            <a href = "/official-website/main-page/index.html">
+          <button class="header-buttons"> Home </button>
+        </a>
+        </div>
+    
+        <div class="middle-header-text">
+    
+          TerpPlates
+    
+        </div>
+    
+        <div class="right-header">
+    
+          <button class="header-buttons"> About
+    
+          </button>
+    
+        </div>
+      </div>
+
+
+<div class="top-page">
+    <div class="intro">Today's Yahentamitsi Reviews</div>
+
+    <a id="menu-link" href="#" target="_blank">
+    <button class="menu">Menu</button>
+</a>
+</div>
+
+
+
+<div class="bottom-page">
+
+    
+      <div class="reviews">
+
+        <form class="comments-form">
+            <div class="content">
+                <div class="rest-comment">
+                    bidneni
+
+                </div>
+
+            </div>
+
+            
+
+        </form>
+
+        <form class="comments-form">
+            <div class="content">
+                <div class="rest-comment">
+                    bidneni
+
+                </div>
+
+            </div>
+
+            
+
+        </form>
+
+        <form class="comments-form">
+            <div class="content">
+                <div class="rest-comment">
+                    bidneni
+
+                </div>
+
+            </div>
+
+            
+
+        </form>
+
+        <form class="comments-form">
+            <div class="content">
+                <div class="rest-comment">
+                    bidneni
+
+                </div>
+
+            </div>
+
+            
+
+        </form>
+
+        <form class="comments-form">
+            <div class="content">
+                <div class="rest-comment">
+                    bidneni
+
+                </div>
+
+            </div>
+
+            
+
+        </form>
+
+        <form class="comments-form">
+            <div class="content">
+                <div class="rest-comment">
+                    bidneni
+
+                </div>
+
+            </div>
+
+            
+
+        </form>
+
+
+
+
+      </div>
+
+    </div>
+
+
+    <script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Gets us todays date
+    const today = new Date();
+    const formattedDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+
+    // \will set link dynamically
+    const menuLink = document.getElementById("menu-link");
+    menuLink.href = `https://nutrition.umd.edu/?locationNum=51&dtdate=${formattedDate}`;
+});
+
+        async function loadComments() {
+            try {
+                const diningHall = "251"; // Change this dynamically for other halls
+                const response = await fetch(`http://localhost:3000/${diningHall}/comments`);
+                const comments = await response.json();
+        
+                const reviewsContainer = document.querySelector('.reviews');
+                reviewsContainer.innerHTML = "";
+        
+                comments.forEach(comment => {
+                    let stars = "⭐".repeat(comment.rating) + "☆".repeat(5 - comment.rating);
+        
+                    const commentElement = document.createElement('form');
+                    commentElement.className = "comments-form";
+                    commentElement.innerHTML = `
+                        <div class="content">
+                            <strong style="color: white; font-size: 18px;">${comment.name}</strong>
+                            <div class="star-rating-display">${stars}</div>
+                            <div class="rest-comment">${comment.comment}</div>
+                            <div class="comment-meta">${new Date(comment.timestamp).toLocaleString()}</div>
+                        </div>
+                    `;
+                    reviewsContainer.appendChild(commentElement);
+                });
+            } catch (error) {
+                console.error("Error loading comments:", error);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadComments);
+        </script>
+        
+        
+        
+        
+        
+
+
+</body>
+
+</html>
